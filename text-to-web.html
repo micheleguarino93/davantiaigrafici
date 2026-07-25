@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore Articoli Minimal - Centratura</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; line-height: 1.5; max-width: 800px; margin: auto; }
+        textarea, input { width: 100%; margin-bottom: 10px; padding: 10px; box-sizing: border-box; }
+        .toolbar { margin-bottom: 5px; display: flex; gap: 5px; flex-wrap: wrap; }
+        .buttons { display: flex; gap: 10px; margin-top: 10px; }
+        button { padding: 10px 20px; background: #000; color: #fff; border: none; cursor: pointer; font-weight: bold; flex: 1; }
+        button#btnDownload { background: #333; }
+        .tool-btn { background: #eee; color: #000; flex: 0; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <h2>Crea il tuo articolo</h2>
+    <input type="text" id="titolo" placeholder="Titolo dell'articolo">
+    <textarea id="descrizione" placeholder="Descrizione (per SEO)"></textarea>
+    
+    <div class="toolbar">
+        <button class="tool-btn" onclick="format('b')"><b>B</b></button>
+        <button class="tool-btn" onclick="format('i')"><i>I</i></button>
+        <button class="tool-btn" onclick="format('a')">Link</button>
+        <button class="tool-btn" onclick="format('img')">Img</button>
+        <button class="tool-btn" onclick="format('center')">Centra</button>
+    </div>
+    <textarea id="corpo" rows="10" placeholder="Scrivi qui il testo... ogni riga diventerà un paragrafo"></textarea>
+    
+    <div class="buttons">
+        <button onclick="generaHTML()">Genera Codice</button>
+        <button id="btnDownload" onclick="scaricaFile()" disabled>Scarica file .html</button>
+    </div>
+
+    <h3>Codice Generato:</h3>
+    <textarea id="risultato" rows="10" readonly></textarea>
+
+    <script>
+        let ultimoHtmlGenerato = "";
+        let nomeFileDaSalvare = "articolo.html";
+
+        function format(type) {
+            const textarea = document.getElementById('corpo');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const selected = text.substring(start, end);
+
+            let result = "";
+            if (type === 'b') result = `<b>${selected}</b>`;
+            else if (type === 'i') result = `<i>${selected}</i>`;
+            else if (type === 'center') result = `<div style="text-align:center;">${selected}</div>`;
+            else if (type === 'a') {
+                const url = prompt("Inserisci URL:", "https://");
+                if (url) result = `<a href="${url}">${selected}</a>`;
+                else result = selected;
+            }
+            else if (type === 'img') {
+                const url = prompt("Inserisci URL dell'immagine:", "https://");
+                if (url) {
+                    const alt = prompt("Inserisci il testo alternativo per l'immagine:", "");
+                    result = `\n<img src="${url}" alt="${alt}" />\n`;
+                } else {
+                    result = selected;
+                }
+            }
+
+            textarea.value = text.substring(0, start) + result + text.substring(end);
+        }
+
+        function generaHTML() {
+            const titolo = document.getElementById('titolo').value;
+            const desc = document.getElementById('descrizione').value;
+            
+            nomeFileDaSalvare = titolo
+                .toLowerCase()
+                .replace(/[^a-z0-9 ]/g, '')
+                .trim()
+                .replace(/\s+/g, '-') + ".html";
+
+            const corpoInput = document.getElementById('corpo').value;
+            // Split mantenendo i blocchi centralizzati
+            const righe = corpoInput.split('\n');
+            const corpoHTML = righe
+                .filter(riga => riga.trim() !== "")
+                .map(riga => {
+                    const r = riga.trim();
+                    if (r.startsWith('<img') || r.startsWith('<div')) {
+                        return r;
+                    }
+                    return `<p>${r}</p>`;
+                })
+                .join('\n        ');
+
+            ultimoHtmlGenerato = `<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${titolo}</title>
+    <meta name="description" content="${desc}">
+    <style>
+        body { margin: 0; padding: 20px; background: #fff; color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
+        main { max-width: 600px; margin: 50px auto; }
+        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        p { font-size: 1.25rem; margin-bottom: 1rem; }
+        a { color: #000; }
+        img { max-width: 100%; height: auto; display: block; margin: 2rem 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>${titolo}</h1>
+        ${corpoHTML}
+    </main>
+</body>
+</html>`;
+
+            document.getElementById('risultato').value = ultimoHtmlGenerato;
+            document.getElementById('btnDownload').disabled = false;
+        }
+
+        function scaricaFile() {
+            const blob = new Blob([ultimoHtmlGenerato], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nomeFileDaSalvare;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
