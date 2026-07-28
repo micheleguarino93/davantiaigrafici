@@ -3,155 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accademia di Trading Gratuita</title>
+    <title>Scuola di trading gratuita</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #10b981;
-            --accent-hover: #059669;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.5;
             display: flex;
             flex-direction: column;
+            align-items: center;
             min-height: 100vh;
+            padding: 40px 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Hero Section */
-        header {
-            padding: 80px 0 40px 0;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        h1 span {
-            color: var(--accent);
-        }
-
-        p.subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto 40px auto;
-        }
-
-        /* CTA Button */
-        .btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 16px 36px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Curriculum Section */
-        .curriculum {
-            padding: 40px 0 80px 0;
-        }
-
-        .curriculum h2 {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-        }
-
-        .lessons-grid {
-            display: grid;
-            gap: 20px;
-        }
-
-        .lesson-card {
-            background-color: var(--card-bg);
-            border: 1px solid #334155;
-            padding: 24px;
-            border-radius: 12px;
             display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 40px;
         }
 
-        .lesson-number {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent);
-            font-weight: bold;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-        }
-
-        .lesson-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-        }
-
-        .lesson-info p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: auto;
+        /* Titolo */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
             text-align: center;
-            padding: 20px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid #1e293b;
+            letter-spacing: -1px;
+            margin-top: 20px;
         }
 
-        /* Modal Overlay */
+        /* Lista lezioni */
+        .lessons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .bullet {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .lesson-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .lesson-content p {
+            font-size: 0.95rem;
+            color: #555555;
+        }
+
+        /* Bottone INIZIA principale */
+        .btn-inizia {
+            width: 100%;
+            padding: 22px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-inizia:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Pop-up Modale */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            z-index: 1000;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -159,184 +117,169 @@
             pointer-events: auto;
         }
 
-        /* Modal Box */
         .modal {
-            background-color: var(--card-bg);
-            border: 1px solid #334155;
-            padding: 40px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            padding: 30px;
             border-radius: 16px;
             width: 100%;
             max-width: 440px;
             position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .close-btn {
             position: absolute;
-            top: 20px;
+            top: 15px;
             right: 20px;
             background: none;
             border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
+            font-weight: bold;
         }
 
-        .close-btn:hover {
-            color: var(--text-main);
-        }
-
-        .modal h3 {
+        .modal h2 {
             font-size: 1.5rem;
             margin-bottom: 10px;
         }
 
         .modal p {
-            color: var(--text-muted);
             font-size: 0.95rem;
-            margin-bottom: 24px;
+            color: #555555;
+            margin-bottom: 20px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group input {
             width: 100%;
             padding: 14px 16px;
-            background-color: var(--bg-color);
-            border: 1px solid #334155;
+            border: 2px solid #000000;
             border-radius: 8px;
-            color: var(--text-main);
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        .form-group input:focus {
-            border-scolor: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .modal .btn {
+        .modal-submit {
             width: 100%;
+            padding: 14px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .lesson-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .modal-submit:hover {
+            background-color: #333333;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .btn-inizia { font-size: 1.2rem; padding: 18px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Hero Section -->
-        <header>
-            <h1>Impara a fare trading <br><span>senza filtri e gratis.</span></h1>
-            <p class="subtitle">Un percorso essenziale di 5 lezioni per capire i mercati reali, azzerare il rumore di fondo ed evitare gli errori che bruciano i conti.</p>
-            <button class="btn" id="openModalBtn">Inizia Gratis</button>
-        </header>
+        <!-- Titolo -->
+        <h1>Scuola di trading gratuita</h1>
 
-        <!-- Curriculum Section -->
-        <section class="curriculum">
-            <h2>Cosa imparerai nel percorso</h2>
-            <div class="lessons-grid">
-                <div class="lesson-card">
-                    <div class="lesson-number">01</div>
-                    <div class="lesson-info">
-                        <h3>Chi muove davvero i mercati</h3>
-                        <p>Scopri le dinamiche nascoste dietro i movimenti di prezzo istituzionali.</p>
-                    </div>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">02</div>
-                    <div class="lesson-info">
-                        <h3>Come leggere i grafici</h3>
-                        <p>L'azione del prezzo pura, senza indicatori complessi che confondono le idee.</p>
-                    </div>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">03</div>
-                    <div class="lesson-info">
-                        <h3>Indicatori: quali usare e quali no</h3>
-                        <p>Separa gli strumenti utili da quelli inutili creati solo per vendere illusioni.</p>
-                    </div>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">04</div>
-                    <div class="lesson-info">
-                        <h3>Oltre i grafici: Volume e flusso di ordini</h3>
-                        <p>Impara a guardare dove si muovono realmente i capitali importanti.</p>
-                    </div>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">05</div>
-                    <div class="lesson-info">
-                        <h3>Errori che fanno perdere sempre</h3>
-                        <p>Analisi psicologica e strutturale dei comportamenti che azzerano i conti dei trader retail.</p>
-                    </div>
+        <!-- Lista Lezioni -->
+        <div class="lessons-list">
+            <div class="lesson-item">
+                <div class="bullet"></div>
+                <div class="lesson-content">
+                    <h3>Lezione 1: "Chi muove davvero i mercati"</h3>
+                    <p>Scopri le dinamiche nascoste dietro i movimenti di prezzo istituzionali.</p>
                 </div>
             </div>
-        </section>
+
+            <div class="lesson-item">
+                <div class="bullet"></div>
+                <div class="lesson-content">
+                    <h3>Lezione 2: "Come leggere i grafici"</h3>
+                    <p>L'azione del prezzo pura, senza indicatori complessi che confondono.</p>
+                </div>
+            </div>
+
+            <div class="lesson-item">
+                <div class="bullet"></div>
+                <div class="lesson-content">
+                    <h3>Lezione 3: "Indicatori: quali usare e quali no"</h3>
+                    <p>Separa gli strumenti utili da quelli inutili creati solo per vendere illusioni.</p>
+                </div>
+            </div>
+
+            <div class="lesson-item">
+                <div class="bullet"></div>
+                <div class="lesson-content">
+                    <h3>Lezione 4: "Oltre i grafici: Volume e flusso di ordini"</h3>
+                    <p>Impara a guardare dove si muovono realmente i capitali importanti.</p>
+                </div>
+            </div>
+
+            <div class="lesson-item">
+                <div class="bullet"></div>
+                <div class="lesson-content">
+                    <h3>Lezione 5: "Errori che fanno perdere sempre"</h3>
+                    <p>Analisi psicologica e strutturale dei comportamenti che azzerano i conti.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pulsante Inizia -->
+        <button class="btn-inizia" id="openModal">INIZIA</button>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Trading Academy. Tutti i diritti riservati.</p>
-        </div>
-    </footer>
-
-    <!-- Pop-up Modal -->
+    <!-- Pop-up Email -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
-            <button class="close-btn" id="closeModalBtn">&times;</button>
-            <h3>Accedi al corso gratuito</h3>
-            <p>Inserisci la tua email per ricevere immediatamente la prima lezione direttamente nella tua casella di posta.</p>
-            <form id="leadForm" onsubmit="handleFormSubmit(event)">
+            <button class="close-btn" id="closeModal">&times;</button>
+            <h2>Inizia ora gratis</h2>
+            <p>Inserisci la tua email per accedere subito alla prima lezione del percorso.</p>
+            <form id="emailForm" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <input type="email" placeholder="La tua email migliore" required id="userEmail">
                 </div>
-                <button type="submit" class="btn">Ottieni l'accesso immediato</button>
+                <button type="submit" class="modal-submit">Conferma e Accedi</button>
             </form>
         </div>
     </div>
 
     <script>
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
         const modalOverlay = document.getElementById('modalOverlay');
-        const leadForm = document.getElementById('leadForm');
+        const emailForm = document.getElementById('emailForm');
 
-        // Apri il pop-up
         openModalBtn.addEventListener('click', () => {
             modalOverlay.classList.add('active');
         });
 
-        // Chiudi il pop-up (pulsante X)
         closeModalBtn.addEventListener('click', () => {
             modalOverlay.classList.remove('active');
         });
 
-        // Chiudi il pop-up cliccando fuori dalla modale
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) {
                 modalOverlay.classList.remove('active');
             }
         });
 
-        // Gestione invio form (simulata)
-        function handleFormSubmit(e) {
+        function handleSubmit(e) {
             e.preventDefault();
             const email = document.getElementById('userEmail').value;
-            alert(`Grazie! La lezione 1 è stata inviata a: ${email}`);
+            alert(`Perfetto! Ti abbiamo inviato la prima lezione a: ${email}`);
             modalOverlay.classList.remove('active');
-            leadForm.reset();
+            emailForm.reset();
         }
     </script>
 </body>
